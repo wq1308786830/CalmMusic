@@ -1,0 +1,119 @@
+
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7">
+<![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8">
+<![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9">
+<![endif]-->
+<!--[if gte IE 9]>
+<html class="no-js gte-ie9">
+<!-->
+<html class="no-js">
+<!--<![endif]-->
+<head>
+    <title>豆瓣音乐人</title>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="http://img3.douban.com/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="http://img3.douban.com/f/music/3d06dbcb86fff98382586fa4d3e1f4a5377196b1/css/music/artists/player/common.css">
+    <link rel="stylesheet" href=http://img3.douban.com/f/music/67fb124651e74430005ba1086742789e19efb01b/css/music/artists/player/icons/fontello.css>
+    <link rel="stylesheet" href=http://img3.douban.com/f/music/4a81797aeb42231e4367709422aa8321aebffc0c/deploy/music/fleece/css/player.css>
+    <!--[if IE 7]><link rel="stylesheet" href="http://img3.douban.com/f/music/89b6cf6dbb5ba17ae0b38856017843eac946005c/css/music/artists/player/icons/fontello-ie7-hack.css"><![endif]-->
+</head>
+<body class="theme">
+<div id="app-container">
+    <div class="loading-wrapper">
+        <div class="loading">
+            <div class="dot-1"></div>
+            <div class="dot-2"></div>
+            <div class="dot-3"></div>
+            <div class="dot-4"></div>
+        </div>
+        <div class="label">加载中</div>
+    </div>
+</div>
+<div id="pl-ad">
+    <div class="adslot">
+        <div id="dale_music_artist_player_bottom" ></div>
+    </div>
+</div>
+
+<script>
+        var _body_start=new Date();
+        var __configs = {"ck": null, "DOUBAN": "http://www.douban.com", "LOGIN_URL": "https://accounts.douban.com/popup/login", "DEVELOP_MODE": false, "DOUBAN_SITE": "http://site.douban.com", "current_user": {}, "DOUBAN_REC_URL": "http://www.douban.com/share/recommend?"};
+        __configs.logo_url = "http://img3.douban.com/f/music/8ff4438f7d647c5bac0c45ee4c2672a7d758056c/pics/music/artists/artistlogo.png";
+        __configs.conn_server_swf = '/swf/53096/conn_server.swf';
+        var __bootstrap_data = {"playlist": [{"styles": ["\u539f\u58f0"], "picture": ["http://img3.douban.com/view/site/large/public/fe155e0fc4e6b4f.jpg"], "lyrics": "", "is_downloadable": false, "artist_name": "\u5927\u63d0\u7434\uff1a\u9648\u58a8 \u5c0f\u63d0\u7434\uff1a\u5143\u5955", "play_count": "438", "is_selling": true, "play_length": "2:27", "title": "\u4e09\u91cd\u594f1", "is_commentable": true, "subject_id": "0", "rec_url": "http://site.douban.com/269203/?s=636512", "label": "", "url": "http://mr3.douban.com/201601162248/9197bbe51229f2ef6744863e80bd66f2/view/musicianmp3/mp3/x18075514.mp3", "publish_date": "2016-01-13", "sid": "636512", "is_collected": false, "artist": {"picture": "http://img3.douban.com/view/site/large/public/fe155e0fc4e6b4f.jpg", "cover_color": ["", "", ""], "kind": "artist", "follower": 12, "id": "269203", "is_royalty_artist": true, "style": "\u539f\u58f0 Soundtrack", "name": "\u5409\u9e4f", "url": "http://site.douban.com/jipeng/", "song_count": 5, "member": ["\u5409\u9e4f"], "genre_url": "http://music.douban.com/artists/genre_page/9/"}}, {"styles": [], "picture": ["http://img3.douban.com/view/site/large/public/fe155e0fc4e6b4f.jpg"], "lyrics": "", "is_downloadable": false, "artist_name": "\u5218\u540c", "play_count": "331", "is_selling": true, "play_length": "4:39", "title": "\u7231\u60c5\u7684\u58f0\u97f3", "is_commentable": true, "subject_id": "0", "rec_url": "http://site.douban.com/269203/?s=636510", "label": "", "url": "http://mr3.douban.com/201601162248/3fd92b995255da994b38ae4575672290/view/musicianmp3/mp3/x18075490.mp3", "publish_date": "2016-01-13", "sid": "636510", "is_collected": false, "artist": {"picture": "http://img3.douban.com/view/site/large/public/fe155e0fc4e6b4f.jpg", "cover_color": ["", "", ""], "kind": "artist", "follower": 12, "id": "269203", "is_royalty_artist": true, "style": "\u539f\u58f0 Soundtrack", "name": "\u5409\u9e4f", "url": "http://site.douban.com/jipeng/", "song_count": 5, "member": ["\u5409\u9e4f"], "genre_url": "http://music.douban.com/artists/genre_page/9/"}}, {"styles": ["\u539f\u58f0"], "picture": ["http://img3.douban.com/view/site/large/public/fe155e0fc4e6b4f.jpg"], "lyrics": "", "is_downloadable": false, "artist_name": "\u5927\u63d0\u7434\uff1a\u9648\u58a8 \u5c0f\u63d0\u7434\uff1a\u5143\u5955", "play_count": "281", "is_selling": true, "play_length": "2:27", "title": "\u4e09\u91cd\u594f2", "is_commentable": true, "subject_id": "0", "rec_url": "http://site.douban.com/269203/?s=636513", "label": "", "url": "http://mr3.douban.com/201601162248/1cafe539a15ca2e19ba978bf88634dbc/view/musicianmp3/mp3/x18075522.mp3", "publish_date": "2016-01-13", "sid": "636513", "is_collected": false, "artist": {"picture": "http://img3.douban.com/view/site/large/public/fe155e0fc4e6b4f.jpg", "cover_color": ["", "", ""], "kind": "artist", "follower": 12, "id": "269203", "is_royalty_artist": true, "style": "\u539f\u58f0 Soundtrack", "name": "\u5409\u9e4f", "url": "http://site.douban.com/jipeng/", "song_count": 5, "member": ["\u5409\u9e4f"], "genre_url": "http://music.douban.com/artists/genre_page/9/"}}]};
+    </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    (function (global) {
+        var newNode = global.document.createElement('script'),
+            existingNode = global.document.getElementsByTagName('script')[0],
+            adSource = '//erebor.douban.com/',
+            userId = '',
+            browserId = 'rgrJCeqirjE',
+            criteria = '3:/artists/player/',
+            preview = '',
+            debug = false,
+            adSlots = ['dale_music_artist_player_bottom'];
+
+        global.DoubanAdRequest = {src: adSource, uid: userId, bid: browserId, crtr: criteria, prv: preview, debug: debug};
+        global.DoubanAdSlots = (global.DoubanAdSlots || []).concat(adSlots);
+
+        newNode.setAttribute('type', 'text/javascript');
+        newNode.setAttribute('src', 'http://img3.douban.com/f/shire/0a3e8bdd48446950d821b65613a24e86be2b067a/js/ad.js');
+        newNode.setAttribute('async', true);
+        existingNode.parentNode.insertBefore(newNode, existingNode);
+    })(this);
+</script>
+
+
+
+
+
+
+
+
+
+
+<!--[if lt IE 9]>
+<script type="text/javascript" charset="utf-8" src="http://img3.douban.com/f/music/4dfbab320a2646c97b9a3fab256c81d4c49d83d2/js/music/lib/json.js"></script>
+<![endif]-->
+<script type="text/javascript" charset="utf-8" src="http://img3.douban.com/f/music/25dac5b4352273a448fed7ad445da28e5daf67ce/deploy/music/fleece/player/oz_main.js"></script>
+<script type="text/javascript" charset="utf-8">
+        define('player/collections/collects', 'http://img3.douban.com/f/music/81a2c2b9db9a0fd8647b7ba15f41a156386dcb34/deploy/music/fleece/player/collections/collects.js');
+        define('player/utils/swfconn', 'http://img3.douban.com/f/music/c56f6551f10fb5ca84a555e3bc135b6f7a4327f2/deploy/music/fleece/player/utils/swfconn.js');
+        define('player/views/favlist', 'http://img3.douban.com/f/music/77773980498cd79463def1eb38f396ed210bae61/deploy/music/fleece/player/views/favlist.js');
+        define('player/views/login', 'http://img3.douban.com/f/music/c734f0871e089df402b70d1dc99a804df2d0d8a6/deploy/music/fleece/player/views/login.js');
+        define('player/oz_main', 'http://img3.douban.com/f/music/25dac5b4352273a448fed7ad445da28e5daf67ce/deploy/music/fleece/player/oz_main.js');
+        define('player/mobile/main', 'http://img3.douban.com/f/music/4945b6b5311770879a697719e87d04a984f8bdce/deploy/music/fleece/player/mobile/main.js');
+</script>
+
+
+<script>var _check_hijack = function () {
+    var _sig = "rgrJCeqi", _login = false, bid = get_cookie('bid');
+    if (location.protocol != "file:" && (
+            typeof(bid) != "string" && _login ||
+            typeof(bid) == "string" && bid.substring(0,8) != _sig)) {
+        location.href += (/\?/.test(location.href)?"&":"?") + (
+                "_r=" + Math.random().toString(16).substring(2));
+    }};
+if (typeof(Do) != 'undefined') Do(_check_hijack);
+else if (typeof(get_cookie) != 'undefined') _check_hijack();
+</script></body>
+</html>
+
+
+
