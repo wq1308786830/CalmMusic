@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +22,13 @@ import java.util.Random;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment implements MediaPlayer.OnCompletionListener {
+public class MainActivityFragment extends Fragment {
 
     private HomeAdapter mAdapter;
-    private List<String> mDatas = new ArrayList<>();
     private RecyclerView recycler;
     private ContentResolver contentResolver;
     private MusicLoader musicLoader;
-    private List<?> list;
+    private List<MusicInfo> list;
     private Random random = new Random();
     private int position = 0;
 
@@ -38,8 +38,8 @@ public class MainActivityFragment extends Fragment implements MediaPlayer.OnComp
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        initData();
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+        initData();
         initView(view);
         return view;
     }
@@ -47,7 +47,7 @@ public class MainActivityFragment extends Fragment implements MediaPlayer.OnComp
     private void initView(View view) {
         recycler = (RecyclerView) view.findViewById(R.id.recycler_view);
 //        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recycler.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recycler.setLayoutManager(new GridLayoutManager(getActivity(), 1));
 
         recycler.setAdapter(mAdapter = new HomeAdapter());
     }
@@ -56,22 +56,21 @@ public class MainActivityFragment extends Fragment implements MediaPlayer.OnComp
         contentResolver = getActivity().getContentResolver();
         musicLoader = new MusicLoader(contentResolver);
         list = musicLoader.getMusicList();
-        for (int i = 0; i < list.size(); i++) {
-            MusicInfo musicInfo = (MusicInfo) list.get(i);
-            String a = musicInfo.getUrl();
-//            Log.i("url", a);
-        }
+//        for (int i = 0; i < list.size(); i++) {
+//            MusicInfo musicInfo = (MusicInfo) list.get(i);
+//            String url = musicInfo.getUrl();
+//            String name = musicInfo.getTitle();
+//            String artist = musicInfo.getArtist();
+//            String album = musicInfo.getAlbum();
+//            int duration = musicInfo.getDuration();
+////            Log.i("url", url);
+//        }
         position = random.nextInt(Math.abs(list.size()));
-        musicLoader.musicPlayer(((MusicInfo) list.get(position)).getUrl(), list);
+        musicLoader.musicPlayer((list.get(position)).getUrl(), list);
     }
 
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-        position = random.nextInt(Math.abs(list.size()));
-        musicLoader.musicPlayer(((MusicInfo) list.get(position)).getUrl(), list);
-    }
 
-    class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
+    class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> implements View.OnClickListener {
 
         @Override
         public HomeAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -81,20 +80,30 @@ public class MainActivityFragment extends Fragment implements MediaPlayer.OnComp
 
         @Override
         public void onBindViewHolder(HomeAdapter.MyViewHolder holder, int position) {
-            holder.tv.setText(mDatas.get(position));
+            holder.songName.setText(list.get(position).getTitle());
+            holder.songSinger.setText(list.get(position).getArtist());
+            holder.itemView.setOnClickListener(this);
         }
 
         @Override
         public int getItemCount() {
-            return mDatas.size();
+            return list.size();
+        }
+
+        @Override
+        public void onClick(View view) {
+            Log.i("position======", String.valueOf(position));
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
-            TextView tv;
+            public TextView songName;
+            public TextView songSinger;
+
 
             public MyViewHolder(View itemView) {
                 super(itemView);
-                tv = (TextView) itemView.findViewById(R.id.recycler_list_item);
+                songName = (TextView) itemView.findViewById(R.id.songName);
+                songSinger = (TextView) itemView.findViewById(R.id.songSinger);
             }
         }
     }

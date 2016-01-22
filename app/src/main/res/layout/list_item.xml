@@ -2,19 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/listItem">
+    android:background="@color/listItem"
+    android:baselineAligned="false">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/recycler_list_item"
+            android:id="@+id/songName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="19sp"
             android:background="#ccbbaa"
-            android:text="aaa"/>
+            android:text="@string/songName"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +28,7 @@
             android:textColor="@color/nameTitle"
             android:textSize="16sp"
             android:background="#ccbbaa"
-            android:text="bbb"/>
+            android:text="@string/songSinger"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -2,7 +2,6 @@ package com.russell.calmmusic.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 /**
  * Created by qi on 2016/1/20.
@@ -22,8 +21,8 @@ public class MusicInfo implements Parcelable {
     }
 
     public MusicInfo(long pId, String pTitle) {
-        id = pId;
-        title = pTitle;
+        this.id = pId;
+        this.title = pTitle;
     }
 
     public String getArtist() {

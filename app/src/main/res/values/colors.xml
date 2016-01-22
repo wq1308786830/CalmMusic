@@ -3,7 +3,7 @@
     <color name="colorPrimary">#00ffaa</color>
     <color name="colorPrimaryDark">#00ff77</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="listItem">#998044</color>
+    <color name="listItem">#99998044</color>
     <color name="nameTitle">#ddd</color>
     <color name="lyric">#ccc</color>
 </resources>

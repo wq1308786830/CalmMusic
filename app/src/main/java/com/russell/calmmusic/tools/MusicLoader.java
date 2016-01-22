@@ -1,3 +1,7 @@
+/**
+ *
+ */
+
 package com.russell.calmmusic.tools;
 
 import java.io.IOException;
@@ -35,14 +39,15 @@ public class MusicLoader implements MediaPlayer.OnCompletionListener{
     };
     private String where = "mime_type in ('audio/mpeg','audio/x-ms-wma') and is_music > 0 ";
     private String sortOrder = Media.DATA;
+    static List<MusicInfo> MUSIC_INFOS;
 
     public MusicLoader(ContentResolver contentResolver) {                                                                                                             //利用ContentResolver的query函数来查询数据，然后将得到的结果放到MusicInfo对象中，最后放到数组中
         Cursor cursor = contentResolver.query(contentUri, projection, where, null, sortOrder);
         System.out.println(cursor);
         if (cursor == null) {
-            Log.v(TAG, "Line(37  )   Music Loader cursor == null.");
+            Log.v(TAG, "Line(37) Music Loader cursor == null.");
         } else if (!cursor.moveToFirst()) {
-            Log.v(TAG, "Line(39  )   Music Loader cursor.moveToFirst() returns false.");
+            Log.v(TAG, "Line(39) Music Loader cursor.moveToFirst() returns false.");
         } else {
             int displayNameCol = cursor.getColumnIndex(Media.DISPLAY_NAME);
             int albumCol = cursor.getColumnIndex(Media.ALBUM);
@@ -85,6 +90,7 @@ public class MusicLoader implements MediaPlayer.OnCompletionListener{
          * 播放音乐
          */
         Log.i("url=======", url);
+        MUSIC_INFOS = (List<MusicInfo>) list;
         final MediaPlayer mediaPlayer = new MediaPlayer();
         mediaPlayer.setLooping(false); /*循环*/
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -96,10 +102,12 @@ public class MusicLoader implements MediaPlayer.OnCompletionListener{
             e.printStackTrace();
         }
         mediaPlayer.start();
+        mediaPlayer.setOnCompletionListener(this);  //this指向调用它的对象，此处是mediaPlayer
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-
+        int position = new Random().nextInt(Math.abs(MUSIC_INFOS.size()));
+        musicPlayer((MUSIC_INFOS.get(position)).getUrl(), MUSIC_INFOS);
     }
 }

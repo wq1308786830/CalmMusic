@@ -7,19 +7,27 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/lyric"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/hello_blank_fragment"
         android:textAlignment="center"
         android:textColor="@color/lyric"
-        android:paddingTop="@dimen/abc_action_bar_content_inset_material" />
+        android:textSize="@dimen/lyricSize"
+        android:contentDescription="@string/lyricDescription"
+        android:paddingTop="@dimen/abc_action_bar_content_inset_material"
+        android:layout_marginLeft="@dimen/abc_action_bar_content_inset_material"
+        android:layout_marginRight="@dimen/abc_action_bar_content_inset_material"
+        android:layout_marginTop="@dimen/abc_action_bar_content_inset_material"
+        android:layout_marginBottom="@dimen/lyricMarginBottom" />
 
     <ImageButton
+        android:id="@+id/imageButton"
         android:layout_width="87dp"
         android:layout_height="78dp"
-        android:id="@+id/imageButton"
         android:layout_gravity="center_horizontal|bottom"
         android:alpha="0.7"
+        android:contentDescription="@string/playDescription"
         android:src="@mipmap/play_not1"
         android:clickable="true"
         android:background="#00ffffff" />
