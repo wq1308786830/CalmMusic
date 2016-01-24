@@ -1,21 +1,26 @@
-package com.russell.calmmusic;
+package com.russell.calmmusic.fragments;
 
 import android.content.ContentResolver;
-import android.media.MediaPlayer;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.russell.calmmusic.MainActivity;
+import com.russell.calmmusic.MyApplication;
+import com.russell.calmmusic.R;
+import com.russell.calmmusic.activities.PlayingActivity;
 import com.russell.calmmusic.bean.MusicInfo;
+import com.russell.calmmusic.tools.DividerItemDecoration;
 import com.russell.calmmusic.tools.MusicLoader;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -46,10 +51,11 @@ public class MainActivityFragment extends Fragment {
 
     private void initView(View view) {
         recycler = (RecyclerView) view.findViewById(R.id.recycler_view);
-//        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recycler.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-
-        recycler.setAdapter(mAdapter = new HomeAdapter());
+        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        recycler.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+        recycler.addItemDecoration(new DividerItemDecoration(
+                getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        recycler.setAdapter(mAdapter = new HomeAdapter(list));
     }
 
     protected void initData() {
@@ -66,22 +72,32 @@ public class MainActivityFragment extends Fragment {
 ////            Log.i("url", url);
 //        }
         position = random.nextInt(Math.abs(list.size()));
-        musicLoader.musicPlayer((list.get(position)).getUrl(), list);
+        musicLoader.musicPlayer(MyApplication.getMediaPlayer(), (list.get(position)).getUrl(), list);
     }
 
 
     class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> implements View.OnClickListener {
 
+        private List<MusicInfo> datas;
+
+        public HomeAdapter(List<MusicInfo> datas) {
+            this.datas = datas;
+        }
+
         @Override
         public HomeAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
             MyViewHolder holder = new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false));
+            view.setOnClickListener(this);
             return holder;
         }
 
         @Override
         public void onBindViewHolder(HomeAdapter.MyViewHolder holder, int position) {
             holder.songName.setText(list.get(position).getTitle());
-            holder.songSinger.setText(list.get(position).getArtist());
+            holder.songSinger.setText(list.get(position).getArtist() + "-" + list.get(position).getAlbum());
+            //将数据保存在itemView的Tag中，以便点击时进行获取
+            holder.itemView.setTag(position);
             holder.itemView.setOnClickListener(this);
         }
 
@@ -92,13 +108,19 @@ public class MainActivityFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Log.i("position======", String.valueOf(position));
+            int o = (int) view.getTag();
+            musicLoader.musicPlayer(MyApplication.getMediaPlayer(), (list.get(o)).getUrl(), list);
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();
+            intent.setClass(getActivity(), PlayingActivity.class);
+            bundle.putInt("tag", o);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
             public TextView songName;
             public TextView songSinger;
-
 
             public MyViewHolder(View itemView) {
                 super(itemView);

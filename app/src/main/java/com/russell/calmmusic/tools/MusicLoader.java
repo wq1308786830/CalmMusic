@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import android.app.Application;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.database.Cursor;
@@ -18,6 +19,7 @@ import android.net.Uri;
 import android.provider.MediaStore.Audio.Media;
 import android.util.Log;
 
+import com.russell.calmmusic.MyApplication;
 import com.russell.calmmusic.bean.MusicInfo;
 
 public class MusicLoader implements MediaPlayer.OnCompletionListener{
@@ -30,7 +32,7 @@ public class MusicLoader implements MediaPlayer.OnCompletionListener{
     //projection：选择的列; where：过滤条件; sortOrder：排序。
     private String[] projection = {
             Media._ID,
-            Media.DISPLAY_NAME,
+            Media.TITLE,
             Media.DATA,
             Media.ALBUM,
             Media.ARTIST,
@@ -49,7 +51,7 @@ public class MusicLoader implements MediaPlayer.OnCompletionListener{
         } else if (!cursor.moveToFirst()) {
             Log.v(TAG, "Line(39) Music Loader cursor.moveToFirst() returns false.");
         } else {
-            int displayNameCol = cursor.getColumnIndex(Media.DISPLAY_NAME);
+            int displayNameCol = cursor.getColumnIndex(Media.TITLE);
             int albumCol = cursor.getColumnIndex(Media.ALBUM);
             int idCol = cursor.getColumnIndex(Media._ID);
             int durationCol = cursor.getColumnIndex(Media.DURATION);
@@ -85,17 +87,17 @@ public class MusicLoader implements MediaPlayer.OnCompletionListener{
         Uri uri = ContentUris.withAppendedId(contentUri, id);
         return uri;
     }
-    public void musicPlayer(String url, List<?> list){
+    public void musicPlayer(MediaPlayer mediaPlayer, String url, List<?> list){
         /**
          * 播放音乐
          */
         Log.i("url=======", url);
         MUSIC_INFOS = (List<MusicInfo>) list;
-        final MediaPlayer mediaPlayer = new MediaPlayer();
-        mediaPlayer.setLooping(false); /*循环*/
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mediaPlayer.setLooping(completion); /*循环*/
+
+        mediaPlayer.reset();
         try {
+            mediaPlayer.setLooping(false); /*循环*/
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setDataSource(url);
             mediaPlayer.prepare(); // might take long! (for buffering, etc)
         } catch (IOException e) {
@@ -108,6 +110,6 @@ public class MusicLoader implements MediaPlayer.OnCompletionListener{
     @Override
     public void onCompletion(MediaPlayer mp) {
         int position = new Random().nextInt(Math.abs(MUSIC_INFOS.size()));
-        musicPlayer((MUSIC_INFOS.get(position)).getUrl(), MUSIC_INFOS);
+        musicPlayer(MyApplication.getMediaPlayer(),(MUSIC_INFOS.get(position)).getUrl(), MUSIC_INFOS);
     }
 }

@@ -1,0 +1,157 @@
+//http://music.163.com/api/song/detail/?id=102138&ids=%5B102138%5D&csrf_token=Method=GET
+
+{
+  "songs": [
+    {
+      "starred": false,
+      "popularity": 100.0,
+      "starredNum": 0,
+      "playedNum": 0,
+      "dayPlays": 0,
+      "hearTime": 0,
+      "mp3Url": "http://m2.music.126.net/MTOMhqq9bg4UyX4a15svJQ==/7962663210000227.mp3",
+      "rtUrls": [],
+      "name": "芊芊",
+      "id": 102138,
+      "position": 11,
+      "duration": 239786,
+      "status": 1,
+      "alias": [],
+      "artists": [
+        {
+          "img1v1Id": 0,
+          "name": "回音哥",
+          "id": 3348,
+          "alias": [],
+          "picId": 0,
+          "briefDesc": "",
+          "picUrl": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+          "albumSize": 0,
+          "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+          "trans": "",
+          "musicSize": 0
+        }
+      ],
+      "copyrightId": 29001,
+      "score": 100,
+      "hMusic": {
+        "name": null,
+        "id": 99913748,
+        "size": 9594391,
+        "extension": "mp3",
+        "bitrate": 320000,
+        "dfsId": 7957165651859294,
+        "playTime": 239786,
+        "sr": 44100,
+        "volumeDelta": -2.63
+      },
+      "mMusic": {
+        "name": null,
+        "id": 99913749,
+        "size": 4797265,
+        "extension": "mp3",
+        "bitrate": 160000,
+        "dfsId": 7965961744883603,
+        "playTime": 239786,
+        "sr": 44100,
+        "volumeDelta": -2.2
+      },
+      "lMusic": {
+        "name": null,
+        "id": 99913750,
+        "size": 2878414,
+        "extension": "mp3",
+        "bitrate": 96000,
+        "dfsId": 7962663210000227,
+        "playTime": 239786,
+        "sr": 44100,
+        "volumeDelta": -2.25
+      },
+      "album": {
+        "songs": [],
+        "name": "回音Echo",
+        "id": 10078,
+        "type": "专辑",
+        "size": 10,
+        "status": 1,
+        "description": "",
+        "tags": "",
+        "alias": [],
+        "artists": [
+          {
+            "img1v1Id": 0,
+            "name": "回音哥",
+            "id": 3348,
+            "alias": [],
+            "picId": 0,
+            "briefDesc": "",
+            "picUrl": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+            "albumSize": 0,
+            "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+            "trans": "",
+            "musicSize": 0
+          }
+        ],
+        "copyrightId": 0,
+        "picId": 117647744172815,
+        "briefDesc": "",
+        "artist": {
+          "img1v1Id": 0,
+          "name": "",
+          "id": 0,
+          "alias": [],
+          "picId": 0,
+          "briefDesc": "",
+          "picUrl": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+          "albumSize": 0,
+          "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+          "trans": "",
+          "musicSize": 0
+        },
+        "picUrl": "http://p4.music.126.net/eWPnftA1ng9ptHzTfnZ0cg==/117647744172815.jpg",
+        "commentThreadId": "R_AL_3_10078",
+        "publishTime": 1342886400000,
+        "company": "伯乐爱乐",
+        "blurPicUrl": "http://p3.music.126.net/eWPnftA1ng9ptHzTfnZ0cg==/117647744172815.jpg",
+        "companyId": 0,
+        "pic": 117647744172815
+      },
+      "commentThreadId": "R_SO_4_102138",
+      "fee": 0,
+      "mvid": 0,
+      "ftype": 0,
+      "rtype": 0,
+      "rurl": null,
+      "copyFrom": "",
+      "bMusic": {
+        "name": null,
+        "id": 99913750,
+        "size": 2878414,
+        "extension": "mp3",
+        "bitrate": 96000,
+        "dfsId": 7962663210000227,
+        "playTime": 239786,
+        "sr": 44100,
+        "volumeDelta": -2.25
+      },
+      "audition": {
+        "name": "芊芊",
+        "id": 99919291,
+        "size": 1943168,
+        "extension": "m4a",
+        "bitrate": 64000,
+        "dfsId": 3378799232313920,
+        "playTime": 239786,
+        "sr": 44100,
+        "volumeDelta": 0.0
+      },
+      "ringtone": "600902000009328526",
+      "disc": "",
+      "no": 11,
+      "crbt": "f19771f5bb8a15bcf6cb830c9ec52e21",
+      "rtUrl": null
+    }
+  ],
+  "equalizers": {},
+  "code": 200
+}

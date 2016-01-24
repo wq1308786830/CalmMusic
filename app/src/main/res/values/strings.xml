@@ -8,4 +8,5 @@
     <string name="lyricDescription">playDescription</string>
     <string name="songName">aaa</string>
     <string name="songSinger">bbb</string>
+    <string name="title_activity_playing">PlayingActivity</string>
 </resources>
