@@ -4,6 +4,8 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,14 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.russell.calmmusic.MainActivity;
+import com.russell.calmmusic.MyApplication;
 import com.russell.calmmusic.R;
 import com.russell.calmmusic.activities.PlayingActivity;
 import com.russell.calmmusic.bean.MusicInfo;
-import com.russell.calmmusic.services.MusicServices;
 import com.russell.calmmusic.tools.DividerItemDecoration;
 import com.russell.calmmusic.tools.MusicLoader;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -29,8 +33,9 @@ public class MainActivityFragment extends Fragment {
     private RecyclerView recycler;
     private ContentResolver contentResolver;
     private MusicLoader musicLoader;
-    private MusicServices musicServices;
     private List<MusicInfo> list;
+    private Random random = new Random();
+    private int position = 0;
 
     public MainActivityFragment() {
     }
@@ -57,6 +62,8 @@ public class MainActivityFragment extends Fragment {
         contentResolver = getActivity().getContentResolver();
         musicLoader = new MusicLoader(contentResolver);
         list = musicLoader.getMusicList();
+        position = random.nextInt(Math.abs(list.size()));
+//        musicLoader.musicPlayer(MyApplication.getMediaPlayer(), (list.get(position)).getUrl(), list);
     }
 
 
@@ -79,7 +86,7 @@ public class MainActivityFragment extends Fragment {
         @Override
         public void onBindViewHolder(HomeAdapter.MyViewHolder holder, int position) {
             holder.songName.setText(list.get(position).getTitle());
-            holder.songSinger.setText(list.get(position).getArtist() + "-" + list.get(position).getAlbum());
+            holder.songSinger.setText(list.get(position).getArtist() + " - " + list.get(position).getAlbum());
             holder.songPosition.setText(position+1+"");
             //将数据保存在itemView的Tag中，以便点击时进行获取
             holder.itemView.setTag(position);
@@ -94,8 +101,7 @@ public class MainActivityFragment extends Fragment {
         @Override
         public void onClick(View view) {
             int o = (int) view.getTag();
-            musicServices = new MusicServices();
-            musicServices.playMusic(o);
+            musicLoader.musicPlayer(MyApplication.getMediaPlayer(), (list.get(o)).getUrl(), list);
             Intent intent = new Intent();
             Bundle bundle = new Bundle();
             intent.setClass(getActivity(), PlayingActivity.class);
