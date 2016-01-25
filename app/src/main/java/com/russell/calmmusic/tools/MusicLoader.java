@@ -1,31 +1,24 @@
 /**
- *
+ * 获取music信息
  */
 
 package com.russell.calmmusic.tools;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import android.app.Application;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.database.Cursor;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.provider.MediaStore.Audio.Media;
 import android.util.Log;
 
-import com.russell.calmmusic.MyApplication;
 import com.russell.calmmusic.bean.MusicInfo;
 
-public class MusicLoader implements MediaPlayer.OnCompletionListener{
+import java.util.ArrayList;
+import java.util.List;
 
-    private static final String TAG = "com.example.nature.MusicLoader";
-    private static boolean completion = false;
+public class MusicLoader {
+
+    private static final String TAG = "com.russell.calmmusic.MusicLoader";
     private static List<MusicInfo> musicList = new ArrayList<MusicInfo>();
     //Uri，指向external的database  
     private Uri contentUri = Media.EXTERNAL_CONTENT_URI;
@@ -41,7 +34,6 @@ public class MusicLoader implements MediaPlayer.OnCompletionListener{
     };
     private String where = "mime_type in ('audio/mpeg','audio/x-ms-wma') and is_music > 0 ";
     private String sortOrder = Media.DATA;
-    static List<MusicInfo> MUSIC_INFOS;
 
     public MusicLoader(ContentResolver contentResolver) {                                                                                                             //利用ContentResolver的query函数来查询数据，然后将得到的结果放到MusicInfo对象中，最后放到数组中
         Cursor cursor = contentResolver.query(contentUri, projection, where, null, sortOrder);
@@ -86,30 +78,5 @@ public class MusicLoader implements MediaPlayer.OnCompletionListener{
     public Uri getMusicUriById(long id) {
         Uri uri = ContentUris.withAppendedId(contentUri, id);
         return uri;
-    }
-    public void musicPlayer(MediaPlayer mediaPlayer, String url, List<?> list){
-        /**
-         * 播放音乐
-         */
-        Log.i("url=======", url);
-        MUSIC_INFOS = (List<MusicInfo>) list;
-
-        mediaPlayer.reset();
-        try {
-            mediaPlayer.setLooping(false); /*循环*/
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mediaPlayer.setDataSource(url);
-            mediaPlayer.prepare(); // might take long! (for buffering, etc)
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mediaPlayer.start();
-        mediaPlayer.setOnCompletionListener(this);  //this指向调用它的对象，此处是mediaPlayer
-    }
-
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-        int position = new Random().nextInt(Math.abs(MUSIC_INFOS.size()));
-        musicPlayer(MyApplication.getMediaPlayer(),(MUSIC_INFOS.get(position)).getUrl(), MUSIC_INFOS);
     }
 }

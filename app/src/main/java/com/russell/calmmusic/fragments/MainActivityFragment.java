@@ -4,8 +4,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,16 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.russell.calmmusic.MainActivity;
-import com.russell.calmmusic.MyApplication;
 import com.russell.calmmusic.R;
 import com.russell.calmmusic.activities.PlayingActivity;
 import com.russell.calmmusic.bean.MusicInfo;
+import com.russell.calmmusic.services.MusicServices;
 import com.russell.calmmusic.tools.DividerItemDecoration;
 import com.russell.calmmusic.tools.MusicLoader;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -33,9 +29,8 @@ public class MainActivityFragment extends Fragment {
     private RecyclerView recycler;
     private ContentResolver contentResolver;
     private MusicLoader musicLoader;
+    private MusicServices musicServices;
     private List<MusicInfo> list;
-    private Random random = new Random();
-    private int position = 0;
 
     public MainActivityFragment() {
     }
@@ -62,17 +57,6 @@ public class MainActivityFragment extends Fragment {
         contentResolver = getActivity().getContentResolver();
         musicLoader = new MusicLoader(contentResolver);
         list = musicLoader.getMusicList();
-//        for (int i = 0; i < list.size(); i++) {
-//            MusicInfo musicInfo = (MusicInfo) list.get(i);
-//            String url = musicInfo.getUrl();
-//            String name = musicInfo.getTitle();
-//            String artist = musicInfo.getArtist();
-//            String album = musicInfo.getAlbum();
-//            int duration = musicInfo.getDuration();
-////            Log.i("url", url);
-//        }
-        position = random.nextInt(Math.abs(list.size()));
-        musicLoader.musicPlayer(MyApplication.getMediaPlayer(), (list.get(position)).getUrl(), list);
     }
 
 
@@ -96,6 +80,7 @@ public class MainActivityFragment extends Fragment {
         public void onBindViewHolder(HomeAdapter.MyViewHolder holder, int position) {
             holder.songName.setText(list.get(position).getTitle());
             holder.songSinger.setText(list.get(position).getArtist() + "-" + list.get(position).getAlbum());
+            holder.songPosition.setText(position+1+"");
             //将数据保存在itemView的Tag中，以便点击时进行获取
             holder.itemView.setTag(position);
             holder.itemView.setOnClickListener(this);
@@ -109,7 +94,8 @@ public class MainActivityFragment extends Fragment {
         @Override
         public void onClick(View view) {
             int o = (int) view.getTag();
-            musicLoader.musicPlayer(MyApplication.getMediaPlayer(), (list.get(o)).getUrl(), list);
+            musicServices = new MusicServices();
+            musicServices.playMusic(o);
             Intent intent = new Intent();
             Bundle bundle = new Bundle();
             intent.setClass(getActivity(), PlayingActivity.class);
@@ -121,11 +107,13 @@ public class MainActivityFragment extends Fragment {
         class MyViewHolder extends RecyclerView.ViewHolder {
             public TextView songName;
             public TextView songSinger;
+            public TextView songPosition;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
                 songName = (TextView) itemView.findViewById(R.id.songName);
                 songSinger = (TextView) itemView.findViewById(R.id.songSinger);
+                songPosition = (TextView) itemView.findViewById(R.id.itemPosition);
             }
         }
     }
