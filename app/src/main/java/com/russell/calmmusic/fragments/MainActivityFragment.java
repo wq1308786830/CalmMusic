@@ -1,11 +1,12 @@
+/**
+ * MainActivity中的Fragment用于显示音乐列表
+ */
+
 package com.russell.calmmusic.fragments;
 
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,16 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.russell.calmmusic.MainActivity;
-import com.russell.calmmusic.MyApplication;
 import com.russell.calmmusic.R;
 import com.russell.calmmusic.activities.PlayingActivity;
 import com.russell.calmmusic.bean.MusicInfo;
+import com.russell.calmmusic.services.MusicServices;
 import com.russell.calmmusic.tools.DividerItemDecoration;
 import com.russell.calmmusic.tools.MusicLoader;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -31,19 +30,26 @@ public class MainActivityFragment extends Fragment {
 
     private HomeAdapter mAdapter;
     private RecyclerView recycler;
-    private ContentResolver contentResolver;
     private MusicLoader musicLoader;
+    private MusicServices musicServices;
     private List<MusicInfo> list;
-    private Random random = new Random();
-    private int position = 0;
+
 
     public MainActivityFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+        musicLoader = new MusicLoader(getActivity());
+        musicServices = new MusicServices(getActivity());
         initData();
         initView(view);
         return view;
@@ -59,10 +65,8 @@ public class MainActivityFragment extends Fragment {
     }
 
     protected void initData() {
-        contentResolver = getActivity().getContentResolver();
-        musicLoader = new MusicLoader(contentResolver);
         list = musicLoader.getMusicList();
-        position = random.nextInt(Math.abs(list.size()));
+//        position = random.nextInt(Math.abs(list.size()));
 //        musicLoader.musicPlayer(MyApplication.getMediaPlayer(), (list.get(position)).getUrl(), list);
     }
 
@@ -101,7 +105,7 @@ public class MainActivityFragment extends Fragment {
         @Override
         public void onClick(View view) {
             int o = (int) view.getTag();
-            musicLoader.musicPlayer(MyApplication.getMediaPlayer(), (list.get(o)).getUrl(), list);
+            musicServices.initMediaPlayer(o);
             Intent intent = new Intent();
             Bundle bundle = new Bundle();
             intent.setClass(getActivity(), PlayingActivity.class);

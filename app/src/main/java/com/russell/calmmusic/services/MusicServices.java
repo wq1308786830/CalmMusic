@@ -1,3 +1,7 @@
+/**
+ * 所有关于音乐的服务
+ */
+
 package com.russell.calmmusic.services;
 
 import android.app.Service;
@@ -15,7 +19,6 @@ import com.russell.calmmusic.bean.MusicInfo;
 import com.russell.calmmusic.tools.MusicLoader;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -25,46 +28,37 @@ import java.util.Random;
 public class MusicServices extends Service implements MediaPlayer.OnPreparedListener,
         MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener,
         AudioManager.OnAudioFocusChangeListener {
-    private static final String ACTION_PLAY = "com.example.action.PLAY";
-    private static List<MusicInfo> musicList = new ArrayList<MusicInfo>();
-    MediaPlayer mMediaPlayer = null;
+    private static final String ACTION_PLAY = "com.russell.calmmusic.MainActivity";
+//    private static final String ACTION_PLAY = "com.russell.calmmusic.FragmentMainActivity";
+    private static List<MusicInfo> musicList;
+    private final Context context;
+    MediaPlayer mMediaPlayer;
+    MusicLoader musicLoader;
 
-    public void playMusic(int position) {
-        /**
-         * 播放音乐
-         */
-        initMediaPlayer();
+    public MusicServices(Context context){
+        this.context = context;
+        this.musicLoader = new MusicLoader(context);
+        musicList = musicLoader.getMusicList();
+    }
+
+    public void initMediaPlayer(int position) {
+        mMediaPlayer = new MediaPlayer();
+        mMediaPlayer.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK);
+        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
+                AudioManager.AUDIOFOCUS_GAIN);
         Uri uri = Uri.parse(musicList.get(position).getUrl());
         Log.i("url=======", uri + "");
         try {
-            mMediaPlayer.setDataSource(getApplicationContext(), uri);
+            mMediaPlayer.setDataSource(context, uri);
             mMediaPlayer.prepareAsync(); // prepare async to not block main thread
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void initMediaPlayer() {
-//        mMediaPlayer = new MediaPlayer();
-        MusicLoader  musicLoader = new MusicLoader(getContentResolver());
-        musicList = musicLoader.getMusicList();
-        mMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
-        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
-                AudioManager.AUDIOFOCUS_GAIN);
-        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mMediaPlayer.setOnPreparedListener(this);
         mMediaPlayer.setOnCompletionListener(this);  //this指向调用它的对象，此处是mMediaPlayer
         mMediaPlayer.setOnErrorListener(this);
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent.getAction().equals(ACTION_PLAY)) {
-            mMediaPlayer = new MediaPlayer(); // initialize it here
-            mMediaPlayer.setOnPreparedListener(this);
-            mMediaPlayer.prepareAsync(); // prepare async to not block main thread
-        }
-        return super.onStartCommand(intent, flags, startId);
     }
 
     /**
@@ -78,7 +72,7 @@ public class MusicServices extends Service implements MediaPlayer.OnPreparedList
     @Override
     public void onCompletion(MediaPlayer mp) {
         int position = new Random().nextInt(Math.abs(musicList.size()));
-        playMusic(position);
+        initMediaPlayer(position);
     }
 
     @Nullable
@@ -97,7 +91,10 @@ public class MusicServices extends Service implements MediaPlayer.OnPreparedList
         switch (i) {
             case AudioManager.AUDIOFOCUS_GAIN:
                 // resume playback
-                if (mMediaPlayer == null) initMediaPlayer();
+                if (mMediaPlayer == null){
+                    int position = new Random().nextInt(musicList.size());
+                    initMediaPlayer(position);
+                }
                 else if (!mMediaPlayer.isPlaying()) mMediaPlayer.start();
                 mMediaPlayer.setVolume(1.0f, 1.0f);
                 break;
