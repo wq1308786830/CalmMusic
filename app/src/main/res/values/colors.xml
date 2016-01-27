@@ -6,4 +6,6 @@
     <color name="listItem">#7fccbbaa</color>
     <color name="nameTitle">#ddd</color>
     <color name="lyric">#888</color>
+    <color name="white">#fff</color>
+    <color name="eee">#eee</color>
 </resources>
