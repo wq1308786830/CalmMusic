@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <set android:ordering="together">
+        <objectAnimator
+            android:propertyName=""
+            android:repeatCount="10"
+            android:repeatMode="restart"
+            android:startOffset="700"
+            android:valueFrom="float | int | color"
+            android:valueTo="float | int | color"
+            android:valueType="floatType" />
+
+    </set>
+</set>

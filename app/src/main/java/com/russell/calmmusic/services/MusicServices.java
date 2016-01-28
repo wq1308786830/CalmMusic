@@ -29,25 +29,35 @@ public class MusicServices extends Service implements MediaPlayer.OnPreparedList
         MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener,
         AudioManager.OnAudioFocusChangeListener {
     private static final String ACTION_PLAY = "com.russell.calmmusic.MainActivity";
-//    private static final String ACTION_PLAY = "com.russell.calmmusic.FragmentMainActivity";
+    //    private static final String ACTION_PLAY = "com.russell.calmmusic.FragmentMainActivity";
     private static List<MusicInfo> musicList;
     private final Context context;
-    MediaPlayer mMediaPlayer;
+    static MediaPlayer mMediaPlayer;
     MusicLoader musicLoader;
 
-    public MusicServices(Context context){
+    public static MediaPlayer getmMediaPlayer() {
+        return mMediaPlayer;
+    }
+
+    public MusicServices(Context context) {
         this.context = context;
         this.musicLoader = new MusicLoader(context);
         musicList = musicLoader.getMusicList();
     }
 
     public void initMediaPlayer(int position) {
-        mMediaPlayer = new MediaPlayer();
-        mMediaPlayer.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK);
-        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
-                AudioManager.AUDIOFOCUS_GAIN);
+        if (mMediaPlayer == null) {
+            /**
+             * mMediaPlayer对象可能被release释放掉，或者点击进来就是空对象
+             */
+            mMediaPlayer = new MediaPlayer();
+            mMediaPlayer.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK);
+            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
+                    AudioManager.AUDIOFOCUS_GAIN);
+        }
+        mMediaPlayer.reset();
         Uri uri = Uri.parse(musicList.get(position).getUrl());
         Log.i("url=======", uri + "");
         try {
@@ -91,11 +101,10 @@ public class MusicServices extends Service implements MediaPlayer.OnPreparedList
         switch (i) {
             case AudioManager.AUDIOFOCUS_GAIN:
                 // resume playback
-                if (mMediaPlayer == null){
+                if (mMediaPlayer == null) {
                     int position = new Random().nextInt(musicList.size());
                     initMediaPlayer(position);
-                }
-                else if (!mMediaPlayer.isPlaying()) mMediaPlayer.start();
+                } else if (!mMediaPlayer.isPlaying()) mMediaPlayer.start();
                 mMediaPlayer.setVolume(1.0f, 1.0f);
                 break;
 
