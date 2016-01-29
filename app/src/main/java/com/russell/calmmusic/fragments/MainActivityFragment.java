@@ -18,6 +18,7 @@ import com.russell.calmmusic.R;
 import com.russell.calmmusic.activities.PlayingActivity;
 import com.russell.calmmusic.bean.MusicInfo;
 import com.russell.calmmusic.services.MusicServices;
+import com.russell.calmmusic.services.imp.MusicServicesImp;
 import com.russell.calmmusic.tools.DividerItemDecoration;
 import com.russell.calmmusic.tools.MusicLoader;
 
@@ -31,7 +32,7 @@ public class MainActivityFragment extends Fragment {
     private HomeAdapter mAdapter;
     private RecyclerView recycler;
     private MusicLoader musicLoader;
-    private MusicServices musicServices;
+    private MusicServices musicServicesImp;
     private List<MusicInfo> list;
 
 
@@ -49,7 +50,7 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         musicLoader = new MusicLoader(getActivity());
-        musicServices = new MusicServices(getActivity());
+        musicServicesImp = new MusicServicesImp(getActivity());
         initData();
         initView(view);
         return view;
@@ -58,7 +59,7 @@ public class MainActivityFragment extends Fragment {
     private void initView(View view) {
         recycler = (RecyclerView) view.findViewById(R.id.recycler_view);
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        recycler.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+//        recycler.setLayoutManager(new GridLayoutManager(getActivity(), 1));   /*改变布局类型*/
         recycler.addItemDecoration(new DividerItemDecoration(
                 getActivity(), DividerItemDecoration.VERTICAL_LIST));
         recycler.setAdapter(mAdapter = new HomeAdapter(list));
@@ -66,8 +67,6 @@ public class MainActivityFragment extends Fragment {
 
     protected void initData() {
         list = musicLoader.getMusicList();
-//        position = random.nextInt(Math.abs(list.size()));
-//        musicLoader.musicPlayer(MyApplication.getMediaPlayer(), (list.get(position)).getUrl(), list);
     }
 
 
@@ -89,9 +88,12 @@ public class MainActivityFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(HomeAdapter.MyViewHolder holder, int position) {
+            String ss = list.get(position).getArtist() + " - " + list.get(position).getAlbum();
+            String pos = String.valueOf(position+1);
             holder.songName.setText(list.get(position).getTitle());
-            holder.songSinger.setText(list.get(position).getArtist() + " - " + list.get(position).getAlbum());
-            holder.songPosition.setText(position+1+"");
+            holder.songSinger.setText(ss);
+            holder.songPosition.setText(pos);
+
             //将数据保存在itemView的Tag中，以便点击时进行获取
             holder.itemView.setTag(position);
             holder.itemView.setOnClickListener(this);
@@ -105,7 +107,7 @@ public class MainActivityFragment extends Fragment {
         @Override
         public void onClick(View view) {
             int o = (int) view.getTag();
-            musicServices.initMediaPlayer(o);
+            musicServicesImp.initMediaPlayer(o);
             Intent intent = new Intent();
             Bundle bundle = new Bundle();
             intent.setClass(getActivity(), PlayingActivity.class);
