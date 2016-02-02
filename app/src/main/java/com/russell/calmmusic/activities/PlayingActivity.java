@@ -17,7 +17,7 @@ import com.russell.calmmusic.services.AnimationServices;
 import com.russell.calmmusic.services.MusicServices;
 import com.russell.calmmusic.services.imp.AnimationServicesImpl;
 import com.russell.calmmusic.services.imp.MusicServicesImp;
-import com.russell.calmmusic.tools.MusicLoader;
+import com.russell.calmmusic.tools.datas.MusicLoader;
 
 import java.util.List;
 import java.util.Random;

@@ -1,4 +1,4 @@
-package com.russell.calmmusic.tools;
+package com.russell.calmmusic.tools.androids;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
