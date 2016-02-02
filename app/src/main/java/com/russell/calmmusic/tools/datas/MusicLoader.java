@@ -2,7 +2,7 @@
  * 获取音乐数据
  */
 
-package com.russell.calmmusic.tools;
+package com.russell.calmmusic.tools.datas;
 
 import android.content.ContentUris;
 import android.content.Context;

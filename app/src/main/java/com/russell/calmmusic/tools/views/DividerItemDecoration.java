@@ -1,4 +1,4 @@
-package com.russell.calmmusic.tools;
+package com.russell.calmmusic.tools.views;
 
 /**
  * Created by qi on 2016/1/24.

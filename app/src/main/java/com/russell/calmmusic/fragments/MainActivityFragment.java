@@ -19,8 +19,8 @@ import com.russell.calmmusic.activities.PlayingActivity;
 import com.russell.calmmusic.bean.MusicInfo;
 import com.russell.calmmusic.services.MusicServices;
 import com.russell.calmmusic.services.imp.MusicServicesImp;
-import com.russell.calmmusic.tools.DividerItemDecoration;
-import com.russell.calmmusic.tools.MusicLoader;
+import com.russell.calmmusic.tools.views.DividerItemDecoration;
+import com.russell.calmmusic.tools.datas.MusicLoader;
 
 import java.util.List;
 
