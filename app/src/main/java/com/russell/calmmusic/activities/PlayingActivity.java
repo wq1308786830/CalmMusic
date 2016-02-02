@@ -27,8 +27,8 @@ public class PlayingActivity extends AppCompatActivity implements View.OnTouchLi
     private ImageView playNeedle;
     private ImageView discPlay;
     MediaPlayer mediaPlayer;
-    private float lastX = 0;
     private float lastY = 0;
+    boolean flag = true;
     private List<MusicInfo> musicInfos;
     private MusicServices musicServices;
     private AnimationServices animationServices = new AnimationServicesImpl();
@@ -49,7 +49,7 @@ public class PlayingActivity extends AppCompatActivity implements View.OnTouchLi
     public void init() {
         musicServices = new MusicServicesImp(this);
         musicLoader = new MusicLoader(this);
-        mediaPlayer = musicServices.getMediaPlayer();
+        mediaPlayer = MusicServicesImp.mediaPlayer;
         musicInfos = musicLoader.getMusicList();
         playNeedle = (ImageView) findViewById(R.id.play_needle);
         discPlay = (ImageView) findViewById(R.id.disc);
@@ -69,39 +69,53 @@ public class PlayingActivity extends AppCompatActivity implements View.OnTouchLi
     public boolean onTouch(View view, MotionEvent motionEvent) {
         int ea = motionEvent.getAction();
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        int screenWidth = dm.widthPixels;
-        int screenHeight = dm.heightPixels;
         switch (ea) {
-            case MotionEvent.ACTION_DOWN:
-                lastX = motionEvent.getRawX();//获取触摸事件触摸位置的原始X坐标
+            case MotionEvent.ACTION_DOWN://获取触摸事件触摸位置的原始X坐标
                 lastY = motionEvent.getRawY();
+                flag = true;
                 break;
             case MotionEvent.ACTION_MOVE:
-                float inc_x = motionEvent.getRawX() - lastX;
                 float inc_y = motionEvent.getRawY() - lastY;
-                if (inc_y > 0 && !mediaPlayer.isPlaying()) {
+                if (MusicServicesImp.mediaPlayer != null) {
+                    if (inc_y > 0 && !MusicServicesImp.mediaPlayer.isPlaying()) {
+                        Animation hyperspace = AnimationUtils.loadAnimation(this, R.anim.play_needdle);
+                        hyperspace.setFillAfter(true);
+                        playNeedle.startAnimation(hyperspace);
+                    } else if (inc_y < 0 && MusicServicesImp.mediaPlayer.isPlaying()) {
+                        Animation hyperspace = AnimationUtils.loadAnimation(this, R.anim.stop_needle);
+                        hyperspace.setFillAfter(true);
+                        playNeedle.startAnimation(hyperspace);
+                    } else if (inc_y > 0 && MusicServicesImp.mediaPlayer.isPlaying()) {
+                        flag = false;
+                    }
+                } else {
                     Animation hyperspace = AnimationUtils.loadAnimation(this, R.anim.play_needdle);
                     hyperspace.setFillAfter(true);
                     playNeedle.startAnimation(hyperspace);
-                    int position = new Random().nextInt(Math.abs(musicInfos.size()));
-                    musicServices.initMediaPlayer(position);
-                } else if (inc_y < 0 && mediaPlayer.isPlaying()) {
-                    Animation hyperspace = AnimationUtils.loadAnimation(this, R.anim.stop_needle);
-                    hyperspace.setFillAfter(true);
-                    playNeedle.startAnimation(hyperspace);
-                    mediaPlayer.stop();
-                    mediaPlayer.release();
-                } else {
                 }
-
                 break;
             case MotionEvent.ACTION_UP:
+                if (flag){
+                    if (MusicServicesImp.mediaPlayer != null && MusicServicesImp.mediaPlayer.isPlaying()) {
+                        MusicServicesImp.mediaPlayer.stop();
+                        MusicServicesImp.mediaPlayer.release();
+                        MusicServicesImp.mediaPlayer = null;
+                        mediaPlayer = null;
+                    } else if (MusicServicesImp.mediaPlayer != null && !MusicServicesImp.mediaPlayer.isPlaying()) {
+                        int position = new Random().nextInt(Math.abs(musicInfos.size()));
+                        musicServices.initMediaPlayer(position);
+                    } else {
+                        int position = new Random().nextInt(Math.abs(musicInfos.size()));
+                        musicServices.setMediaPlayer(new MediaPlayer());
+                        musicServices.initMediaPlayer(position);
+                    }
+                }
                 break;
             case MotionEvent.ACTION_CANCEL:
                 break;
             default:
                 break;
         }
-        return true;
+        return flag;
     }
 }

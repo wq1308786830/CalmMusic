@@ -8,4 +8,5 @@ import android.widget.ImageView;
 public interface AnimationServices {
     void controlDisc(ImageView imageView);
     boolean controlNeedle();
+
 }

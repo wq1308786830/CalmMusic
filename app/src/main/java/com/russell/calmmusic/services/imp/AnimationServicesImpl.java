@@ -3,6 +3,7 @@ package com.russell.calmmusic.services.imp;
 import android.animation.Keyframe;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
@@ -17,7 +18,7 @@ public class AnimationServicesImpl implements AnimationServices {
     ObjectAnimator anim;
 
     @Override
-    public void controlDisc(ImageView discPlay) {
+    public void controlDisc(ImageView discPlay) { // TODO: 2016/1/30  controlDisc(ImageView discPlay,int flag)播放则有动画，不播放则没有
         musicServices  = new MusicServicesImp(discPlay.getContext());
         int dur = musicServices.getMediaPlayer().getDuration();
         Keyframe kf0 = Keyframe.ofFloat(0f, 0f); /*时间在0%的时候动画对象的角度*/
@@ -26,7 +27,8 @@ public class AnimationServicesImpl implements AnimationServices {
         anim = ObjectAnimator.ofPropertyValuesHolder(discPlay, pvhRotation); /*将设置的属性绑定在需要动画的对象上*/
         anim.setDuration(8000); /*设置一圈的时间间隔*/
         anim.setInterpolator(new LinearInterpolator()); /*设置为匀速*/
-        anim.setRepeatCount(dur / 8000);
+//        anim.setRepeatCount(dur / 8000);
+        anim.setRepeatCount(Animation.INFINITE); /*设置为循环*/
         anim.setRepeatMode(ObjectAnimator.RESTART);
         anim.start();
     }

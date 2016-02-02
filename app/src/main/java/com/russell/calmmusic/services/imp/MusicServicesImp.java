@@ -34,7 +34,7 @@ public class MusicServicesImp extends Service implements MusicServices, MediaPla
     private int lastPosition;
     private List<MusicInfo> musicList;
     private Context context;
-    private MediaPlayer mediaPlayer;
+    public static MediaPlayer mediaPlayer;
     private MediaController playMusic, stopMusic, nextMusic, lastMusic;
     MusicLoader musicLoader;
 
@@ -51,7 +51,7 @@ public class MusicServicesImp extends Service implements MusicServices, MediaPla
     }
 
     public MusicServicesImp(Context context) {
-        setContext(context);
+        this.context = context;
     }
 
     @Override
@@ -108,13 +108,13 @@ public class MusicServicesImp extends Service implements MusicServices, MediaPla
         if (mediaPlayer == null) {
             /*mediaPlayer对象可能被release释放掉，或者点击进来就是空对象*/
             mediaPlayer = new MediaPlayer();
-            mediaPlayer.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK);
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-            int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
-                    AudioManager.AUDIOFOCUS_GAIN);
         }
         mediaPlayer.reset();
+        mediaPlayer.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK);
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
+                AudioManager.AUDIOFOCUS_GAIN);
         Uri uri = Uri.parse(musicList.get(position).getUrl());
         Log.i("url=======", uri + "");
         try {
