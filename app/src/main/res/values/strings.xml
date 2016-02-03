@@ -11,4 +11,6 @@
     <string name="title_activity_playing">PlayingActivity</string>
     <string name="replaceNum">11</string>
     <string name="play_needle">play needle</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_list">ListActivity</string>
 </resources>

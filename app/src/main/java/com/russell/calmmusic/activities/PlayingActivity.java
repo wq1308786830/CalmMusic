@@ -1,5 +1,7 @@
 package com.russell.calmmusic.activities;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +28,6 @@ public class PlayingActivity extends AppCompatActivity implements View.OnTouchLi
 
     private ImageView playNeedle;
     private ImageView discPlay;
-    MediaPlayer mediaPlayer;
     private float lastY = 0;
     boolean flag = true;
     private List<MusicInfo> musicInfos;
@@ -49,11 +50,10 @@ public class PlayingActivity extends AppCompatActivity implements View.OnTouchLi
     public void init() {
         musicServices = new MusicServicesImp(this);
         musicLoader = new MusicLoader(this);
-        mediaPlayer = MusicServicesImp.mediaPlayer;
         musicInfos = musicLoader.getMusicList();
         playNeedle = (ImageView) findViewById(R.id.play_needle);
         discPlay = (ImageView) findViewById(R.id.disc);
-        if (mediaPlayer.isPlaying()) {
+        if (MusicServicesImp.mediaPlayer.isPlaying()) {
             Animation hyperspace = AnimationUtils.loadAnimation(this, R.anim.play_needdle);
             hyperspace.setFillAfter(true);
             playNeedle.startAnimation(hyperspace);
@@ -100,13 +100,12 @@ public class PlayingActivity extends AppCompatActivity implements View.OnTouchLi
                         MusicServicesImp.mediaPlayer.stop();
                         MusicServicesImp.mediaPlayer.release();
                         MusicServicesImp.mediaPlayer = null;
-                        mediaPlayer = null;
                     } else if (MusicServicesImp.mediaPlayer != null && !MusicServicesImp.mediaPlayer.isPlaying()) {
                         int position = new Random().nextInt(Math.abs(musicInfos.size()));
                         musicServices.initMediaPlayer(position);
                     } else {
                         int position = new Random().nextInt(Math.abs(musicInfos.size()));
-                        musicServices.setMediaPlayer(new MediaPlayer());
+                        MusicServicesImp.mediaPlayer = new MediaPlayer();
                         musicServices.initMediaPlayer(position);
                     }
                 }

@@ -73,6 +73,7 @@ public class MusicServicesImp extends Service implements MusicServices, MediaPla
     public void stopMusic() {
         mediaPlayer.stop();
         mediaPlayer.release();
+        mediaPlayer = null;
     }
 
     @Override
@@ -161,28 +162,33 @@ public class MusicServicesImp extends Service implements MusicServices, MediaPla
                 if (mediaPlayer == null) {
                     int position = new Random().nextInt(musicList.size());
                     initMediaPlayer(position);
-                } else if (!mediaPlayer.isPlaying()) mediaPlayer.start();
+                } else if (!mediaPlayer.isPlaying())
+                    mediaPlayer.start();
                 mediaPlayer.setVolume(1.0f, 1.0f);
                 break;
 
             case AudioManager.AUDIOFOCUS_LOSS:
                 // Lost focus for an unbounded amount of time: stop playback and release media player
-                if (mediaPlayer.isPlaying()) mediaPlayer.stop();
-                mediaPlayer.release();
-                mediaPlayer = null;
+                if (mediaPlayer.isPlaying()){
+                    mediaPlayer.stop();
+                    mediaPlayer.release();
+                    mediaPlayer = null;
+                }
                 break;
 
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                 // Lost focus for a short time, but we have to stop
                 // playback. We don't release the media player because playback
                 // is likely to resume
-                if (mediaPlayer.isPlaying()) mediaPlayer.pause();
+                if (mediaPlayer.isPlaying())
+                    mediaPlayer.pause();
                 break;
 
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                 // Lost focus for a short time, but it's ok to keep playing
                 // at an attenuated level
-                if (mediaPlayer.isPlaying()) mediaPlayer.setVolume(0.1f, 0.1f);
+                if (mediaPlayer.isPlaying())
+                    mediaPlayer.setVolume(0.1f, 0.1f);
                 break;
         }
     }

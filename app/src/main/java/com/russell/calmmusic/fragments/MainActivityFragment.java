@@ -5,6 +5,7 @@
 package com.russell.calmmusic.fragments;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -48,7 +49,7 @@ public class MainActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_list, container, false);
         musicLoader = new MusicLoader(getActivity());
         musicServicesImp = new MusicServicesImp(getActivity());
         initData();
@@ -107,6 +108,7 @@ public class MainActivityFragment extends Fragment {
         @Override
         public void onClick(View view) {
             int o = (int) view.getTag();
+            MusicServicesImp.mediaPlayer = new MediaPlayer();
             musicServicesImp.initMediaPlayer(o);
             Intent intent = new Intent();
             Bundle bundle = new Bundle();
