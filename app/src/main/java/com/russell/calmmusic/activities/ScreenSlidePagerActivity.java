@@ -65,7 +65,7 @@ public class ScreenSlidePagerActivity extends FragmentActivity implements View.O
         intent.setClass(ScreenSlidePagerActivity.this, ListActivity.class);
         startActivity(intent);
     }
-    
+
     /**
      * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
      * sequence.
