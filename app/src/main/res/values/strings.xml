@@ -13,4 +13,8 @@
     <string name="play_needle">play needle</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_list">ListActivity</string>
+    <string name="title_activity_screen_slide">ScreenSlideActivity</string>
+    <string name="lorem_ipsum">lorem_ipsum</string>
+    <string name="a">a</string>
+    <string name="switch_img">switch_img</string>
 </resources>
