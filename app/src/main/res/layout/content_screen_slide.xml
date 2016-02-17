@@ -2,25 +2,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <fragment
-        android:id="@+id/fragment1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:name="com.russell.calmmusic.fragments.ScreenSlideActivityFragment">
+    <!--<fragment-->
+        <!--android:id="@+id/fragment1"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:name="com.russell.calmmusic.fragments.ScreenSlideActivityFragment">-->
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <!--<android.support.v4.view.ViewPager-->
+            <!--android:id="@+id/pager"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent" />-->
 
-        <include layout="@layout/fragment_screen_slide" />
-    </fragment>
+        <!--<include layout="@layout/fragment_screen_slide" />-->
+    <!--</fragment>-->
 
     <RelativeLayout
         android:id="@+id/controller"
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        android:layout_below="@+id/fragment1"
         android:layout_centerHorizontal="true"
         android:background="@color/softGreen">
 

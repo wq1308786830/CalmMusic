@@ -1,5 +1,6 @@
 package com.russell.calmmusic.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -7,11 +8,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.russell.calmmusic.R;
 import com.russell.calmmusic.fragments.ScreenSlideActivityFragment;
 
-public class ScreenSlidePagerActivity extends FragmentActivity {
+public class ScreenSlidePagerActivity extends FragmentActivity implements View.OnClickListener {
     /**
      * The number of pages (wizard steps) to show in this demo.
      */
@@ -28,15 +31,20 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
      */
     private PagerAdapter mPagerAdapter;
 
+    private View linearLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_screen_slide);
 
         // Instantiate a ViewPager and a PagerAdapter.
-        mPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
+        /*todo: 轮播图fragment*/
+//        mPager = (ViewPager) findViewById(R.id.pager);
+//        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+//        mPager.setAdapter(mPagerAdapter);
+
+        linearLayout = findViewById(R.id.allMusic);
+        linearLayout.setOnClickListener(this);
     }
 
     @Override
@@ -51,6 +59,13 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent();
+        intent.setClass(ScreenSlidePagerActivity.this, ListActivity.class);
+        startActivity(intent);
+    }
+    
     /**
      * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
      * sequence.
