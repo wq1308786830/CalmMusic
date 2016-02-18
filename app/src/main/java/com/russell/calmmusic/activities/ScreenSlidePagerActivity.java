@@ -22,18 +22,15 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
      * The number of pages (wizard steps) to show in this demo.
      */
     private static final int NUM_PAGES = 5;
-
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
      * and next wizard steps.
      */
     private ViewPager mPager;
-
     /**
      * The pager adapter, which provides the pages to the view pager widget.
      */
     private PagerAdapter mPagerAdapter;
-
     private View linearLayout, reaLayout;
 
     @Override
@@ -80,10 +77,12 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
                 Intent intent = new Intent();
                 intent.setClass(ScreenSlidePagerActivity.this, ListActivity.class);
                 startActivity(intent);
+                break;
             case R.id.controller:
                 Intent intent1 = new Intent();
                 intent1.setClass(ScreenSlidePagerActivity.this, PlayingActivity.class);
                 startActivity(intent1);
+                break;
             default:
                 break;
         }

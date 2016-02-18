@@ -20,8 +20,8 @@ public class AnimationServicesImpl implements AnimationServices {
     @Override
     public void controlDisc(ImageView discPlay) { // TODO: 2016/1/30  controlDisc(ImageView discPlay,int flag)播放则有动画，不播放则没有
         musicServices  = new MusicServicesImp(discPlay.getContext());
-        if (musicServices.getMediaPlayer() != null){
-            int dur = musicServices.getMediaPlayer().getDuration();
+        if (MusicServicesImp.mediaPlayer != null){
+            int dur = MusicServicesImp.mediaPlayer.getDuration();
             Keyframe kf0 = Keyframe.ofFloat(0f, 0f); /*时间在0%的时候动画对象的角度*/
             Keyframe kf1 = Keyframe.ofFloat(1f, 360f); /*时间在100%的时候(旋转一圈的时间)动画对象的角度*/
             PropertyValuesHolder pvhRotation = PropertyValuesHolder.ofKeyframe("rotation", kf0, kf1); /*设置动画类型和关键值*/

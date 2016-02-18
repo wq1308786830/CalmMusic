@@ -8,5 +8,6 @@
     <color name="lyric">#888</color>
     <color name="white">#fff</color>
     <color name="eee">#eee</color>
-    <color name="softGreen">#5b0</color>
+    <color name="softGreen">#7CCD7C</color>
+    <color name="firstPage">#FFF8DC</color>
 </resources>

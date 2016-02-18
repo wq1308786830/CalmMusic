@@ -11,8 +11,6 @@ import java.util.List;
  * Created by Russell on 16/1/29.
  */
 public interface MusicServices {
-    MediaPlayer getMediaPlayer();
-    void setMediaPlayer(MediaPlayer mediaPlayer);
     Context getContext();
     boolean setContext(Context context);
     void initMediaPlayer(int o);

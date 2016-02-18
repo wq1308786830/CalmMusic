@@ -77,16 +77,6 @@ public class MusicServicesImp extends Service implements MusicServices, MediaPla
     }
 
     @Override
-    public MediaPlayer getMediaPlayer() {
-        return mediaPlayer;
-    }
-
-    @Override
-    public void setMediaPlayer(MediaPlayer mediaPlayer) {
-        this.mediaPlayer = mediaPlayer;
-    }
-
-    @Override
     public Context getContext() {
         return context;
     }
