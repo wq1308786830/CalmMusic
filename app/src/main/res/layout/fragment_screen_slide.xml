@@ -8,9 +8,9 @@
         android:layout_height="wrap_content">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="160dp"
             android:id="@+id/switch_img"
-            android:src="@mipmap/treesshadow"
+            android:src="@mipmap/beautiful"
             android:contentDescription="@string/switch_img" />
         <TextView
             android:layout_width="wrap_content"
