@@ -53,21 +53,21 @@ public class ScreenSlideActivityFragment extends Fragment implements View.OnClic
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (getArguments().getInt("showImg")){
-            case R.mipmap.beautiful:
+            case R.mipmap.index_new_korea:
                 intent.setClass(getActivity(), NetEaseWeb.class);
                 startActivity(intent);
                 SystemTools.print("aaa==========");
                 break;
-            case R.mipmap.horse:
+            case R.mipmap.index_daily_ban1:
                 SystemTools.print("aaa==========");
                 break;
-            case R.mipmap.tree_bluesky:
+            case R.mipmap.index_daily_ban2:
                 SystemTools.print("aaa==========");
                 break;
-            case R.mipmap.treeslight:
+            case R.mipmap.index_new_america:
                 SystemTools.print("aaa==========");
                 break;
-            case R.mipmap.split_plank:
+            case R.mipmap.index_new_china:
                 SystemTools.print("aaa==========");
                 break;
             default:

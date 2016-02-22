@@ -9,5 +9,7 @@
     <color name="white">#fff</color>
     <color name="eee">#eee</color>
     <color name="softGreen">#7CCD7C</color>
-    <color name="firstPage">#FFF8DC</color>
+    <color name="firstPage">#7fccbbaa</color>
+    <color name="firstCtrl">#FFF8DC</color>
+    <color name="whiteSmock">#7ffeffff</color>
 </resources>

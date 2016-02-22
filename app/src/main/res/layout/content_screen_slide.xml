@@ -15,7 +15,7 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="143dp"
         android:layout_below="@+id/toolbar1"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -24,11 +24,38 @@
         android:id="@+id/controller"
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        android:background="@color/softGreen"
+        android:background="@color/whiteSmock"
         android:layout_below="@+id/pager"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/rcd_icn_love"
+            android:layout_alignTop="@+id/imageView2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="39dp"
+            android:layout_marginStart="39dp" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/recommend_icn_special"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/discCtrl" />
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/nact_icn_comment"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/discCtrl"
+            android:layout_toEndOf="@+id/discCtrl"
+            android:layout_marginLeft="39dp"
+            android:layout_marginStart="39dp"
+            android:id="@+id/imageView2" />
     </RelativeLayout>
 
     <LinearLayout
@@ -52,7 +79,7 @@
                 android:layout_height="36dp"
                 android:layout_weight="1"
                 android:contentDescription="@string/a"
-                android:src="@mipmap/folder"
+                android:src="@mipmap/placeholder_disk_play_fm"
                 android:layout_gravity="center_vertical" />
 
             <TextView
@@ -74,7 +101,7 @@
                 android:layout_height="36dp"
                 android:layout_weight="1"
                 android:contentDescription="@string/a"
-                android:src="@mipmap/folder"
+                android:src="@mipmap/placeholder_disk_play_fm"
                 android:layout_gravity="center_vertical" />
 
             <TextView
