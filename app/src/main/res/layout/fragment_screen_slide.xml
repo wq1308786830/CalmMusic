@@ -1,26 +1,25 @@
 <!-- fragment_screen_slide_page.xml -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
-    <RelativeLayout
+    android:layout_height="wrap_content"
+    android:background="@android:color/black">
+
+    <ImageView
+        android:id="@+id/switch_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/eee">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:id="@+id/switch_img"
-            android:src="@mipmap/beautiful"
-            android:contentDescription="@string/switch_img" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/a"
-            android:layout_alignBottom="@+id/switch_img"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="10dp"
-            android:textColor="@color/button_material_light" />
-    </RelativeLayout>
-</ScrollView>
+        android:src="@mipmap/beautiful"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/switch_img" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/switch_img"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:hint="@string/a"
+        android:text="@string/motionFM"
+        android:textColor="@color/button_material_light" />
+</RelativeLayout>

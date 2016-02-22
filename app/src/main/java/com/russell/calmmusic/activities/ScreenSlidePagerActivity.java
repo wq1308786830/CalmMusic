@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.russell.calmmusic.R;
 import com.russell.calmmusic.fragments.ScreenSlideActivityFragment;
@@ -21,23 +22,19 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
     /**
      * The number of pages (wizard steps) to show in this demo.
      */
-    private static final int NUM_PAGES = 5;
-    /**
-     * The pager widget, which handles animation and allows swiping horizontally to access previous
-     * and next wizard steps.
-     */
-    private ViewPager mPager;
-    /**
-     * The pager adapter, which provides the pages to the view pager widget.
-     */
-    private PagerAdapter mPagerAdapter;
-    private View linearLayout, reaLayout;
+    private int[] showImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen_slide);
+        initData();
         initViews();
+    }
+
+    private void initData() {
+        showImg = new int[]{R.mipmap.beautiful, R.mipmap.horse,
+                R.mipmap.tree_bluesky, R.mipmap.treeslight, R.mipmap.split_plank};
     }
 
     public void initViews() {
@@ -46,16 +43,24 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        ScreenSlideActivityFragment fragment = new ScreenSlideActivityFragment();
 
         setSupportActionBar(toolbar);
-        fragmentTransaction.add(R.id.pager, fragment);
+        fragmentTransaction.add(R.id.pager, ScreenSlideActivityFragment.newInstance(showImg[0]));
         fragmentTransaction.commit();
 
-        linearLayout = findViewById(R.id.allMusic);
-        reaLayout = findViewById(R.id.controller);
-        mPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlidePagerAdapter(fragmentManager);
+        /*
+        The pager adapter, which provides the pages to the view pager widget.
+        */
+        PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(fragmentManager);
+        /*
+          The pager widget, which handles animation and allows swiping horizontally to access previous
+          and next wizard steps.
+        */
+        ImageView imageView = (ImageView) findViewById(R.id.switch_img);
+        ViewPager mPager = (ViewPager) findViewById(R.id.pager);
+        View linearLayout = findViewById(R.id.allMusic);
+        View reaLayout = findViewById(R.id.controller);
+
         mPager.setAdapter(mPagerAdapter);
 
         linearLayout.setOnClickListener(this);
@@ -72,16 +77,17 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
 
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.allMusic:
-                Intent intent = new Intent();
                 intent.setClass(ScreenSlidePagerActivity.this, ListActivity.class);
                 startActivity(intent);
                 break;
             case R.id.controller:
-                Intent intent1 = new Intent();
-                intent1.setClass(ScreenSlidePagerActivity.this, PlayingActivity.class);
-                startActivity(intent1);
+                intent.setClass(ScreenSlidePagerActivity.this, PlayingActivity.class);
+                startActivity(intent);
+                break;
+            case R.mipmap.beautiful:
                 break;
             default:
                 break;
@@ -107,12 +113,12 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
 
         @Override
         public Fragment getItem(int position) {
-            return new ScreenSlideActivityFragment();
+            return ScreenSlideActivityFragment.newInstance(showImg[position]);
         }
 
         @Override
         public int getCount() {
-            return NUM_PAGES;
+            return showImg.length;
         }
     }
 }
