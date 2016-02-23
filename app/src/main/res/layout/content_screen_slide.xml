@@ -30,14 +30,14 @@
         android:layout_alignParentStart="true">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@mipmap/rcd_icn_love"
-            android:layout_alignTop="@+id/imageView2"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="39dp"
-            android:layout_marginStart="39dp" />
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:src="@mipmap/list_icn_fav_red"
+            android:layout_alignTop="@+id/share"
+            android:layout_toLeftOf="@+id/discCtrl"
+            android:layout_toStartOf="@+id/discCtrl"
+            android:layout_marginRight="36dp"
+            android:layout_marginEnd="36dp" />
 
         <ImageView
             android:layout_width="100dp"
@@ -49,13 +49,13 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@mipmap/nact_icn_comment"
+            android:src="@mipmap/lay_icn_share"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/discCtrl"
             android:layout_toEndOf="@+id/discCtrl"
             android:layout_marginLeft="39dp"
             android:layout_marginStart="39dp"
-            android:id="@+id/imageView2" />
+            android:id="@+id/share" />
     </RelativeLayout>
 
     <LinearLayout

@@ -1,7 +1,8 @@
 package com.russell.calmmusic.activities;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,21 +17,25 @@ import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.russell.calmmusic.R;
 import com.russell.calmmusic.fragments.ScreenSlideActivityFragment;
 import com.russell.calmmusic.services.MusicServices;
 import com.russell.calmmusic.services.imp.MusicServicesImp;
-
-import java.util.Random;
+import com.russell.calmmusic.tools.Util;
+import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.sdk.modelmsg.WXMusicObject;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 public class ScreenSlidePagerActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
     /**
      * The number of pages (wizard steps) to show in this demo.
      */
+    private static final String APP_ID = "wx1b42c40fb2baf654";
+    private IWXAPI api;
     private int[] showImg;
 
     private float lastX = 0;
@@ -41,6 +46,7 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
         setContentView(R.layout.activity_screen_slide);
         initData();
         initViews();
+        regToWx();
     }
 
     private void initData() {
@@ -51,6 +57,8 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
     public void initViews() {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab1);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
+        ImageView shareWx = (ImageView) findViewById(R.id.share);
+
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -76,6 +84,7 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
 
         linearLayout.setOnClickListener(this);
         imageView.setOnTouchListener(this);
+        shareWx.setOnClickListener(this);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +93,9 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
             }
         });
 
+    }
+    private String buildTransaction(final String type) {
+        return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
     }
 
     @Override
@@ -94,13 +106,26 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
                 intent.setClass(ScreenSlidePagerActivity.this, ListActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.discCtrl:
-                intent.setClass(ScreenSlidePagerActivity.this, PlayingActivity.class);
-                startActivity(intent);
+            case R.id.share:
+                WXMusicObject musicObject = new WXMusicObject();
+                musicObject.musicUrl = "";
+                WXMediaMessage mediaMessage = new WXMediaMessage();
+                mediaMessage.mediaObject = musicObject;
+                mediaMessage.title = "";
+                mediaMessage.description = "";
+                Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.placeholder_disk_play_fm);
+                mediaMessage.thumbData = Util.bmpToByteArray(thumb, true);
+                SendMessageToWX.Req req = new SendMessageToWX.Req();
+                req.transaction = buildTransaction("music");
+                req.message = mediaMessage;
+//                req.scene = isTimelineCb.isChecked() ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
+                api.sendReq(req);
+                finish();
                 break;
             default:
                 break;
         }
+
     }
 
     @Override
@@ -147,6 +172,11 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
                 break;
         }
         return true;
+    }
+
+    private void regToWx(){
+        api = WXAPIFactory.createWXAPI(this, APP_ID, true);
+        api.registerApp(APP_ID);
     }
 
     /**
