@@ -16,7 +16,7 @@ public class NetEaseWeb extends AppCompatActivity {
         setContentView(R.layout.activity_net_ease_web);
         WebView myWebView = (WebView) findViewById(R.id.webview);
         WebSettings webSettings = myWebView.getSettings();
-        myWebView.loadUrl("http://music.163.com/#/song?id=29947420");
+        myWebView.loadUrl("http://douban.fm/");
         myWebView.setWebViewClient(new WebViewClient());
     }
 }

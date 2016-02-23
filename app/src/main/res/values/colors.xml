@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="black">#000000</color>
     <color name="colorPrimary">#e74c54</color>
     <color name="colorPrimaryDark">#E74C3C</color>
     <color name="colorAccent">#FF4081</color>
@@ -12,4 +13,6 @@
     <color name="firstPage">#7fccbbaa</color>
     <color name="firstCtrl">#FFF8DC</color>
     <color name="whiteSmock">#7ffeffff</color>
+    <color name="navpage">#FFE1E8EB</color>
+    <color name="transparent">#00000000</color>
 </resources>
