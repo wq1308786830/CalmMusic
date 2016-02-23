@@ -5,7 +5,6 @@
 package com.russell.calmmusic.fragments;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,8 +19,8 @@ import com.russell.calmmusic.activities.PlayingActivity;
 import com.russell.calmmusic.bean.MusicInfo;
 import com.russell.calmmusic.services.MusicServices;
 import com.russell.calmmusic.services.imp.MusicServicesImp;
-import com.russell.calmmusic.tools.views.DividerItemDecoration;
 import com.russell.calmmusic.tools.datas.MusicLoader;
+import com.russell.calmmusic.tools.views.DividerItemDecoration;
 
 import java.util.List;
 
@@ -30,8 +29,6 @@ import java.util.List;
  */
 public class MainActivityFragment extends Fragment {
 
-    private HomeAdapter mAdapter;
-    private RecyclerView recycler;
     private MusicLoader musicLoader;
     private MusicServices musicServicesImp;
     private List<MusicInfo> list;
@@ -58,12 +55,14 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void initView(View view) {
-        recycler = (RecyclerView) view.findViewById(R.id.recycler_view);
+        RecyclerView recycler = (RecyclerView) view.findViewById(R.id.recycler_view);
+        HomeAdapter homeAdapter = new HomeAdapter();
+        homeAdapter.setDatas(list);
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
 //        recycler.setLayoutManager(new GridLayoutManager(getActivity(), 1));   /*改变布局类型*/
         recycler.addItemDecoration(new DividerItemDecoration(
                 getActivity(), DividerItemDecoration.VERTICAL_LIST));
-        recycler.setAdapter(mAdapter = new HomeAdapter(list));
+        recycler.setAdapter(homeAdapter);
     }
 
     protected void initData() {
@@ -75,7 +74,11 @@ public class MainActivityFragment extends Fragment {
 
         private List<MusicInfo> datas;
 
-        public HomeAdapter(List<MusicInfo> datas) {
+        public List<MusicInfo> getDatas() {
+            return datas;
+        }
+
+        public void setDatas(List<MusicInfo> datas) {
             this.datas = datas;
         }
 
@@ -108,7 +111,6 @@ public class MainActivityFragment extends Fragment {
         @Override
         public void onClick(View view) {
             int o = (int) view.getTag();
-            MusicServicesImp.mediaPlayer = new MediaPlayer();
             musicServicesImp.initMediaPlayer(o);
             Intent intent = new Intent();
             Bundle bundle = new Bundle();

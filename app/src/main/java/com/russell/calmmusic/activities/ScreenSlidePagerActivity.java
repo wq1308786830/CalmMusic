@@ -22,6 +22,7 @@ import android.widget.ImageView;
 
 import com.russell.calmmusic.R;
 import com.russell.calmmusic.fragments.ScreenSlideActivityFragment;
+import com.russell.calmmusic.services.MusicServices;
 import com.russell.calmmusic.services.imp.MusicServicesImp;
 
 import java.util.Random;
@@ -97,8 +98,6 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
                 intent.setClass(ScreenSlidePagerActivity.this, PlayingActivity.class);
                 startActivity(intent);
                 break;
-            case R.mipmap.beautiful:
-                break;
             default:
                 break;
         }
@@ -116,8 +115,7 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
     public boolean onTouch(View v, MotionEvent event) {
         int ea = event.getAction();
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        long a = event.getDownTime();
-        long aa = event.getEventTime();
+        MusicServices musicServices = new MusicServicesImp(ScreenSlidePagerActivity.this);
         switch (ea) {
             case MotionEvent.ACTION_DOWN://获取触摸事件触摸位置的原始X坐标
                 lastX = event.getRawX();
@@ -125,12 +123,22 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
             case MotionEvent.ACTION_MOVE:
                 break;
             case MotionEvent.ACTION_UP:
-                if (event.getEventTime() > event.getDownTime() + 100){
-                    lastX -= event.getRawX();
-                }else {
-                    Intent intent = new Intent().setClass(ScreenSlidePagerActivity.this, PlayingActivity.class);
+                lastX -= event.getRawX();
+                if (event.getEventTime() > event.getDownTime() && Math.abs(lastX) > 20.0) {
+                    if (lastX < 0) {
+                        musicServices.nextMusic();
+                    } else {
+                        musicServices.preMusic();
+                    }
+                } else if (event.getEventTime() >= event.getDownTime()
+                        + 500 && !(Math.abs(lastX) > 20.0)) {
+                    Intent intent = new Intent();
+                    intent.setClass(ScreenSlidePagerActivity.this, PlayingActivity.class);
                     startActivity(intent);
-                    return true;
+                    return false;
+                } else if (event.getEventTime() < event.getDownTime()
+                        + 500 && !(Math.abs(lastX) > 20.0)) {
+                    musicServices.stopOrPlay();
                 }
                 break;
             case MotionEvent.ACTION_CANCEL:

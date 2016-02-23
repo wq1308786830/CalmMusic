@@ -31,27 +31,20 @@ import java.util.Random;
 public class MusicServicesImp extends Service implements MusicServices, MediaPlayer.OnPreparedListener,
         MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener,
         MediaPlayer.OnVideoSizeChangedListener, SurfaceHolder.Callback, MediaController.MediaPlayerControl {
-    private int lastPosition;
+    private static int lastPosition = 0;
     private List<MusicInfo> musicList;
     private Context context;
     public static MediaPlayer mediaPlayer;
     private MediaController playMusic, stopMusic, nextMusic, lastMusic;
-    MusicLoader musicLoader;
 
     public void setMusicList(List<MusicInfo> musicList) {
         this.musicList = musicList;
     }
 
-    public MusicLoader getMusicLoader() {
-        return musicLoader;
-    }
-
-    public void setMusicLoader(MusicLoader musicLoader) {
-        this.musicLoader = musicLoader;
-    }
-
     public MusicServicesImp(Context context) {
         this.context = context;
+        MusicLoader musicLoader = new MusicLoader(context);
+        musicList = musicLoader.getMusicList();
     }
 
     @Override
@@ -62,7 +55,7 @@ public class MusicServicesImp extends Service implements MusicServices, MediaPla
     @Override
     public void nextMusic() {
         lastPosition++;
-        if (lastPosition <= musicList.size()) {
+        if (lastPosition <= musicList.size()-1) {
             initMediaPlayer(lastPosition);
         } else {
             initMediaPlayer(0);
@@ -70,10 +63,25 @@ public class MusicServicesImp extends Service implements MusicServices, MediaPla
     }
 
     @Override
-    public void stopMusic() {
-        mediaPlayer.stop();
-        mediaPlayer.release();
-        mediaPlayer = null;
+    public void preMusic() {
+        lastPosition--;
+        if (lastPosition >= 0) {
+            initMediaPlayer(lastPosition);
+        } else {
+            initMediaPlayer(musicList.size()-1);
+        }
+    }
+
+    @Override
+    public void stopOrPlay() {
+        if (mediaPlayer != null){
+            if (mediaPlayer.isPlaying())
+                mediaPlayer.pause();
+            else
+                mediaPlayer.start();
+        }else {
+            initMediaPlayer(0);
+        }
     }
 
     @Override
@@ -87,15 +95,9 @@ public class MusicServicesImp extends Service implements MusicServices, MediaPla
         return context != null;
     }
 
-    public void init() {
-        musicLoader = new MusicLoader(context);
-        musicList = musicLoader.getMusicList();
-    }
-
     @Override
     public void initMediaPlayer(int position) {
-        init();
-        this.lastPosition = position;
+        lastPosition = position;
         if (mediaPlayer == null) {
             /*mediaPlayer对象可能被release释放掉，或者点击进来就是空对象*/
             mediaPlayer = new MediaPlayer();
@@ -106,6 +108,9 @@ public class MusicServicesImp extends Service implements MusicServices, MediaPla
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
                 AudioManager.AUDIOFOCUS_GAIN);
+        if (result!=0){
+
+        }
         Uri uri = Uri.parse(musicList.get(position).getUrl());
         Log.i("url=======", uri + "");
         try {
@@ -114,8 +119,8 @@ public class MusicServicesImp extends Service implements MusicServices, MediaPla
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mediaPlayer.setOnPreparedListener(this);
         mediaPlayer.setOnCompletionListener(this);  //this指向调用它的对象，此处是mediaPlayer
+        mediaPlayer.setOnPreparedListener(this);
         mediaPlayer.setOnErrorListener(this);
     }
 
@@ -141,7 +146,8 @@ public class MusicServicesImp extends Service implements MusicServices, MediaPla
 
     @Override
     public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
-        return false;
+        mediaPlayer.reset();
+        return true;
     }
 
     @Override

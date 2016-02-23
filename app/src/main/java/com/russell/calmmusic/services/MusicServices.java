@@ -16,5 +16,6 @@ public interface MusicServices {
     void initMediaPlayer(int o);
     List<MusicInfo> getMusicList();
     void nextMusic();
-    void stopMusic();
+    void preMusic();
+    void stopOrPlay();
 }

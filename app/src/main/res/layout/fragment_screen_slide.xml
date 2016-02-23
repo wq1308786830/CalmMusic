@@ -8,7 +8,7 @@
         android:id="@+id/switch_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@mipmap/beautiful"
+        android:src="@mipmap/index_daily_ban1"
         android:scaleType="centerCrop"
         android:contentDescription="@string/switch_img" />
 
