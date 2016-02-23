@@ -24,6 +24,7 @@ import com.russell.calmmusic.fragments.ScreenSlideActivityFragment;
 import com.russell.calmmusic.services.MusicServices;
 import com.russell.calmmusic.services.imp.MusicServicesImp;
 import com.russell.calmmusic.tools.Util;
+import com.russell.calmmusic.wxapi.WXEntryActivity;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXMusicObject;
@@ -120,6 +121,7 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
                 req.message = mediaMessage;
 //                req.scene = isTimelineCb.isChecked() ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
                 api.sendReq(req);
+                startActivity(new Intent(ScreenSlidePagerActivity.this, WXEntryActivity.class));
                 finish();
                 break;
             default:

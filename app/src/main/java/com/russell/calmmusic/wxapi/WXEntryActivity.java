@@ -31,9 +31,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wxentry);
         api = WXAPIFactory.createWXAPI(this, APP_ID, false);
-        api.registerApp(APP_ID);
-        startActivity(new Intent(WXEntryActivity.this, ScreenSlidePagerActivity.class));
-        finish();
         Toast.makeText(WXEntryActivity.this, "launch result = " + api.openWXApp(), Toast.LENGTH_LONG).show();
         int wxSdkVersion = api.getWXAppSupportAPI();
         if (wxSdkVersion >= TIMELINE_SUPPORTED_VERSION) {
