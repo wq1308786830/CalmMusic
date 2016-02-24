@@ -38,7 +38,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         } else {
             Toast.makeText(WXEntryActivity.this, "wxSdkVersion = " + Integer.toHexString(wxSdkVersion) + "\ntimeline not supported", Toast.LENGTH_LONG).show();
         }
-        api.handleIntent(getIntent(), this);
     }
 
     @Override
