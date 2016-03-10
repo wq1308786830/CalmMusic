@@ -16,6 +16,7 @@ public class NetEaseWeb extends AppCompatActivity {
         setContentView(R.layout.activity_net_ease_web);
         WebView myWebView = (WebView) findViewById(R.id.webview);
         WebSettings webSettings = myWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
         myWebView.loadUrl("http://douban.fm/");
         myWebView.setWebViewClient(new WebViewClient());
     }

@@ -13,42 +13,75 @@ import com.russell.calmmusic.tools.ShowFromWXActivity;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
+import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.ShowMessageFromWX;
 import com.tencent.mm.sdk.modelmsg.WXAppExtendObject;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHandler {
 
-    private static final int TIMELINE_SUPPORTED_VERSION = 0x21020001;
-    private static final String APP_ID = "wx1b42c40fb2baf654";
+    private static final String APP_ID = "wx1b42c40fb2baf654";  /**微信app_id*/
     private IWXAPI api;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wxentry);
+        regToWx();  /**注册微信api*/
+    }
+
+    private void regToWx() {
         api = WXAPIFactory.createWXAPI(this, APP_ID, false);
-        Toast.makeText(WXEntryActivity.this, "launch result = " + api.openWXApp(), Toast.LENGTH_LONG).show();
-        int wxSdkVersion = api.getWXAppSupportAPI();
-        if (wxSdkVersion >= TIMELINE_SUPPORTED_VERSION) {
-            Toast.makeText(WXEntryActivity.this, "wxSdkVersion = " + Integer.toHexString(wxSdkVersion) + "\ntimeline supported", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(WXEntryActivity.this, "wxSdkVersion = " + Integer.toHexString(wxSdkVersion) + "\ntimeline not supported", Toast.LENGTH_LONG).show();
-        }
+        api.registerApp(APP_ID);
+        api.handleIntent(getIntent(), this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        WXWebpageObject musicObject = new WXWebpageObject();
+        musicObject.webpageUrl = "http://douban.fm/";
+        WXMediaMessage mediaMessage = new WXMediaMessage();
+        mediaMessage.mediaObject = musicObject;
+        mediaMessage.title = "豆瓣";
+        mediaMessage.description = "豆瓣";
+//        Bitmap thumb = BitmapFactory.decodeResource(getResources(),R.drawable.send_music_thumb);
+//        mediaMessage.thumbData = Util.bmpToByteArray(thumb, true);
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = buildTransaction("web");
+        req.message = mediaMessage;
+        req.scene = SendMessageToWX.Req.WXSceneTimeline;
+//        WXTextObject wxTextObject = new WXTextObject();
+//        wxTextObject.text = "aaaaa";
+//        WXMediaMessage wxMediaMessage = new WXMediaMessage();
+//        wxMediaMessage.mediaObject = wxTextObject;
+//        wxMediaMessage.description = "aaaaa";
+//        SendMessageToWX.Req req = new SendMessageToWX.Req();
+//        req.transaction = String.valueOf(System.currentTimeMillis());
+//        req.message = wxMediaMessage;
+        api.sendReq(req);
+        finish();
+    }
+
+    private String buildTransaction(final String type) {
+        return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-
         setIntent(intent);
         api.handleIntent(intent, this);
     }
+
     @Override
     public void onReq(BaseReq baseReq) {
+        /**
+         * 请求的回调
+         */
         switch (baseReq.getType()) {
             case ConstantsAPI.COMMAND_GETMESSAGE_FROM_WX:
                 goToGetMsg();
@@ -63,8 +96,29 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 
     @Override
     public void onResp(BaseResp baseResp) {
-
+        /**
+         * 响应的回调
+         */
+        int result = 0;
+        switch (baseResp.errCode) {
+            case BaseResp.ErrCode.ERR_OK:
+                result = R.string.errcode_success;
+                break;
+            case BaseResp.ErrCode.ERR_USER_CANCEL:
+                result = R.string.errcode_cancel;
+                break;
+            case BaseResp.ErrCode.ERR_AUTH_DENIED:
+                result = R.string.errcode_deny;
+                break;
+            default:
+                result = R.string.errcode_unknown;
+                break;
+        }
+        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        startActivity(new Intent(this, ScreenSlidePagerActivity.class));
+        finish();
     }
+
     private void goToGetMsg() {
         Intent intent = new Intent(this, GetFromWXActivity.class);
         intent.putExtras(getIntent());

@@ -3,8 +3,6 @@ package com.russell.calmmusic.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,21 +25,13 @@ import com.russell.calmmusic.R;
 import com.russell.calmmusic.fragments.ScreenSlideActivityFragment;
 import com.russell.calmmusic.services.MusicServices;
 import com.russell.calmmusic.services.imp.MusicServicesImp;
-import com.russell.calmmusic.tools.Util;
 import com.russell.calmmusic.wxapi.WXEntryActivity;
-import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.sdk.modelmsg.WXMusicObject;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 
 public class ScreenSlidePagerActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener, DialogInterface.OnCancelListener {
     /**
      * The number of pages (wizard steps) to show in this demo.
      */
-    private static final String APP_ID = "wx1b42c40fb2baf654";
-    private IWXAPI api;
     private int[] showImg;
 
     private float lastX = 0;
@@ -54,7 +44,6 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
         context = this;
         initData();
         initViews();
-        regToWx();
     }
 
     private void initData() {
@@ -104,10 +93,6 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
 
     }
 
-    private String buildTransaction(final String type) {
-        return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
-    }
-
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
@@ -115,21 +100,12 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
             case R.id.allMusic:
                 intent.setClass(ScreenSlidePagerActivity.this, ListActivity.class);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.share:
-                WXMusicObject musicObject = new WXMusicObject();
-                musicObject.musicUrl = "http://play.baidu.com/?__m=mboxCtrl.playSong&__a=1595313&__o=/search||songListIcon&fr=new_mp3||zhidao.baidu.com&__s=%E7%90%86%E6%83%B3%E6%83%85%E4%BA%BA#";
-                WXMediaMessage mediaMessage = new WXMediaMessage();
-                mediaMessage.mediaObject = musicObject;
-                mediaMessage.title = "理想情人";
-                mediaMessage.description = "理想情人";
-                Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.placeholder_disk_play_fm);
-                mediaMessage.thumbData = Util.bmpToByteArray(thumb, true);
-                SendMessageToWX.Req req = new SendMessageToWX.Req();
-                req.transaction = buildTransaction("music");
-                req.message = mediaMessage;
-                req.scene = SendMessageToWX.Req.WXSceneTimeline;
-                Toast.makeText(ScreenSlidePagerActivity.this, "launch result = " + api.sendReq(req), Toast.LENGTH_LONG).show();
+                intent.setClass(this, WXEntryActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.collectFolder:
                 AlertDialog.Builder dialog = new AlertDialog.Builder(this, 5);
@@ -155,6 +131,7 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
         setIntent.addCategory(Intent.CATEGORY_HOME);
         setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(setIntent);
+        finish();
     }
 
     @Override
@@ -193,11 +170,6 @@ public class ScreenSlidePagerActivity extends AppCompatActivity implements View.
                 break;
         }
         return true;
-    }
-
-    private void regToWx() {
-        api = WXAPIFactory.createWXAPI(this, APP_ID, true);
-        api.registerApp(APP_ID);
     }
 
     @Override

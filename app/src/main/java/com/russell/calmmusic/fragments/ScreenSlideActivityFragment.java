@@ -12,7 +12,6 @@ import android.widget.ImageView;
 
 import com.russell.calmmusic.R;
 import com.russell.calmmusic.activities.NetEaseWeb;
-import com.russell.calmmusic.tools.SystemTools;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -56,19 +55,19 @@ public class ScreenSlideActivityFragment extends Fragment implements View.OnClic
             case R.mipmap.index_new_korea:
                 intent.setClass(getActivity(), NetEaseWeb.class);
                 startActivity(intent);
-                SystemTools.print("aaa==========");
+                System.out.println("aaa==========");
                 break;
             case R.mipmap.index_daily_ban1:
-                SystemTools.print("aaa==========");
+                System.out.println("aaa==========");
                 break;
             case R.mipmap.index_daily_ban2:
-                SystemTools.print("aaa==========");
+                System.out.println("aaa==========");
                 break;
             case R.mipmap.index_new_america:
-                SystemTools.print("aaa==========");
+                System.out.println("aaa==========");
                 break;
             case R.mipmap.index_new_china:
-                SystemTools.print("aaa==========");
+                System.out.println("aaa==========");
                 break;
             default:
                 break;
